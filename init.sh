@@ -464,7 +464,7 @@ sed -i "s/^DB_DATABASE=.*/DB_DATABASE=merchant_dv/g" /home/server/backend/releas
 sed -i "s/^DB_USERNAME=.*/DB_USERNAME=${NEW_USERNAME}/g" /home/server/backend/release/target/.env
 sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${NEW_PASSWORD}/g" /home/server/backend/release/target/.env
 sed -i "s/^PAYMENT_FORM_URL=.*/PAYMENT_FORM_URL=http:\/\/${PAYDOMAIN}\/invoices/g" /home/server/backend/release/target/.env
-sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=http:\/\/${PROCESSING_URL}/g" /home/server/backend/release/target/.env
+sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=http:\/\/$PROCESSING_URL/g" /home/server/backend/release/target/.env
 
 chown -R server:server /home/server/backend/
 chmod -R 775 /home/server/backend/storage/

@@ -51,6 +51,9 @@ Based on laravel framework with any popular laravel package
    11. docker-compose exec app php artisan optimize:clear
 ```
 ### Installation with installer (only CentOs)
+You need only clean server
+To correctly install the merchant, you need to know the processing address. It can be installed on the same server in advance or specify its address in the installer
+
 1. git clone git@github.com:RadgRabbi/dv-backend.git
 2. cd ./dv-backend
 3. ./init.sh

@@ -57,12 +57,20 @@ else
     export BACK="${2}"
 fi
 
-if [[ -z "$3"]];
+if [[ -z "$3" ]];
 then
   echo "Write domain for payment form"
   read PAYDOMAIN
 else
   export PAYDOMAIN="${3}"
+fi
+
+if [[ -z "$4" ]];
+then
+  echo "Write processing url by default install http://localhost:8082"
+  read PROCESSINGURL
+else
+  export PROCESSINGURL="${4}"
 fi
 
 if [ "${FRONT}" == "" ];
@@ -81,6 +89,11 @@ if [ "${BACK}" == "" ];
 then
     echo "Empty backend domain!"
     exit;
+fi
+
+if [ "${PROCESSINGURL}" == "" ];
+then
+    export PROCESSINGURL="http://localhost:8082"
 fi
 
 echo "Frontend domain: ${FRONT}"
@@ -439,6 +452,7 @@ sed -i "s/^DB_DATABASE=.*/DB_DATABASE=btcmer/g" /home/server/backend/release/tar
 sed -i "s/^DB_USERNAME=.*/DB_USERNAME=root/g" /home/server/backend/release/target/.env
 sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${MYSQLPASSWORD}/g" /home/server/backend/release/target/.env
 sed -i "s/^PAYMENT_FORM_URL=.*/PAYMENT_FORM_URL=http:\/\/${PAYDOMAIN}\/invoices/g" /home/server/backend/release/target/.env
+sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=${PROCESSINGURL}/g" /home/server/backend/release/target/.env
 
 chown -R server:server /home/server/backend/
 

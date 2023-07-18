@@ -68,9 +68,9 @@ fi
 if [[ -z "$4" ]];
 then
   echo "Write processing url by default install http://localhost:8082"
-  read PROCESSINGURL
+  read PROCESSING_URL
 else
-  export PROCESSINGURL="${4}"
+  export PROCESSING_URL="${4}"
 fi
 
 if [ "${FRONT}" == "" ];
@@ -91,15 +91,15 @@ then
     exit;
 fi
 
-if [ "${PROCESSINGURL}" == "" ];
+if [ "${PROCESSING_URL}" == "" ];
 then
-    export PROCESSINGURL="http://localhost:8082"
+    export PROCESSING_URL="http://localhost:8082"
 fi
 
 echo "Frontend domain: ${FRONT}"
 echo "Backend domain: ${BACK}"
 echo "Pay dommain: ${PAYDOMAIN}"
-echo "Processing url: ${PROCESSINGURL}"
+echo "Processing url: ${PROCESSING_URL}"
 
 adduser server
 
@@ -470,7 +470,7 @@ chown -R server:server /home/server/backend/
 chmod -R 775 /home/server/backend/storage/
 chmod -R 775 /home/server/backend/bootstrap/
 
-sudo -u server -- sh -c 'cd /home/server/backend/release/target; composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts --no-dev; php artisan key:generate; php artisan migrate --force; php artisan db:seed; php artisan l5-swagger:generate; php artisan cache:currency:rate; php artisan optimize:clear;'
+sudo -u server -- sh -c 'cd /home/server/backend/release/target; composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts; php artisan key:generate; php artisan migrate --force; php artisan db:seed; php artisan l5-swagger:generate; php artisan cache:currency:rate; php artisan optimize:clear;'
 
 ln -s /home/server/backend/release/target /home/server/backend/www
 

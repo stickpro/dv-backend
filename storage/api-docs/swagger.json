@@ -1,0 +1,259 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Merchant",
+        "version": "0.1"
+    },
+    "paths": {
+        "/address/{payer}/{currency}": {
+            "get": {
+                "tags": [
+                    "payer"
+                ],
+                "summary": "Get static address for payer",
+                "operationId": "3996ce70b7816a8adce251f4ea057ea4",
+                "parameters": [
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "payer",
+                        "in": "path",
+                        "description": "Your unique user ID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "currency",
+                        "in": "path",
+                        "description": "Currency example BTC.Bitcoin, USDT.Tron",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get static address",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"result\":{\"blockchain\":\"bitcoin\",\"currency\":\"BTC.Bitcoin\",\"address\":\"bc1qwzefc7fp8tdlnv0es3pk6snad22hhet56c300461\",\"payer\":{\"id\":\"9ff39a38-71e1-4a27-83f6-65312691e28e\",\"storeUserId\":\"1\"}},\"errors\":[]}"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid route params",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"message\":\"The payer can only contain uppercase and lowercase letters, a number and a symbol '-' (and 1 more error)\",\"errors\":{\"payer\":[\"The payer can only contain uppercase and lowercase letters, a number and a symbol '-'\"],\"currency\":[\"Currency not found\"]}}"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"errors\":[\"You don't have permission to this action!\"],\"result\":[]}"
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Static address generation is disabled in store settings",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"errors\":[\"Static address generation is disabled in store settings\"],\"result\":[]}"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Store inactive",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"errors\":[\"Store inactive\"],\"result\":[]}"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/invoices": {
+            "post": {
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Create invoice",
+                "operationId": "57ee1e704b4fde8d03aea9913b0d70d7",
+                "parameters": [
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "orderId": {
+                                        "description": "Shop order id",
+                                        "type": "string"
+                                    },
+                                    "amount": {
+                                        "description": "Amount order",
+                                        "type": "number"
+                                    },
+                                    "description": {
+                                        "description": "description order",
+                                        "type": "string"
+                                    },
+                                    "currency": {
+                                        "description": "Order currency (fiat)",
+                                        "type": "string"
+                                    },
+                                    "returnUrl": {
+                                        "description": "URI for return to shop",
+                                        "type": "string"
+                                    },
+                                    "successUrl": {
+                                        "description": "URI for success response",
+                                        "type": "string"
+                                    },
+                                    "paymentMethod": {
+                                        "description": "Payment method",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invoice created"
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "503": {
+                        "description": "Store inactive"
+                    }
+                }
+            }
+        },
+        "/invoices/{invoiceId}": {
+            "get": {
+                "tags": [
+                    "Invoice"
+                ],
+                "summary": "Get invoice info",
+                "operationId": "9ab377c299887e8ba0ede0b9727c91e5",
+                "responses": {
+                    "200": {
+                        "description": "Get invoice info"
+                    },
+                    "400": {
+                        "description": "Invalid input data"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },
+        "/payer/create": {
+            "post": {
+                "tags": [
+                    "payer"
+                ],
+                "summary": "Create Payer for static address",
+                "operationId": "1ccb996cba95cf512a3223571185351d",
+                "parameters": [
+                    {
+                        "name": "X-Api-Key",
+                        "in": "header",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "storeUserId": {
+                                        "description": "unique user ID in your store",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Payer created",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"result\":{\"id\":\"9ff39a38-71e1-4a27-83f6-65312691e28e\",\"store_id\":\"9fe169fc-638c-4387-8477-8bf0e9268248\",\"store_user_id\":\"1\",\"payerUrl\":\"https:\\/\\/dv.net\\/invoices\\/payer\\/9ff39a38-71e1-4a27-83f6-65312691e28e\",\"store\":{\"id\":\"9fe169fc-638c-4387-8477-8bf0e9268248\",\"name\":\"3321\",\"status\":1,\"staticAddress\":1,\"storeCurrencyCode\":\"USD\"},\"address\":[{\"blockchain\":\"bitcoin\",\"currency\":\"BTC.Bitcoin\",\"address\":\"bc1qwzefc7fp8tdlnv0es3pk6snad22hhet56c300461\",\"payer\":{\"id\":\"9ff39a38-71e1-4a27-83f6-65312691e28e\",\"storeUserId\":\"1\",\"payerUrl\":\"https:\\/\\/dv.net\\/invoices\\/payer\\/9ff39a38-71e1-4a27-83f6-65312691e28e\"}}]},\"errors\":[]}"
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Invalid input data",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"message\":\"The payer can only contain uppercase and lowercase letters, a number and a symbol '-'\",\"errors\":{\"storeUserId\":[\"The payer can only contain uppercase and lowercase letters, a number and a symbol '-'\"]}}"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"errors\":[\"You don't have permission to this action!\"],\"result\":[]}"
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Store inactive",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": "{\"errors\":[\"Store inactive\"],\"result\":[]}"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

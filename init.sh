@@ -99,6 +99,7 @@ fi
 echo "Frontend domain: ${FRONT}"
 echo "Backend domain: ${BACK}"
 echo "Pay dommain: ${PAYDOMAIN}"
+echo "Processing url: ${PROCESSINGURL}"
 
 adduser server
 

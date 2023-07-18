@@ -415,7 +415,18 @@ send \"${MYSQLPASSWORD}\r\"
 expect eof
 "
 
-mysql --login-path=local -Bse "CREATE DATABASE btcmer;"
+mysql --login-path=local -Bse "CREATE DATABASE merchant_dv;"
+
+NEW_USERNAME="merchant_dv"
+NEW_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 15 | head -n 1)-$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
+
+mysql --user=root --password="${MYSQLPASSWORD}" mysql -Bse "
+CREATE USER '${NEW_USERNAME}'@'localhost' IDENTIFIED BY '${NEW_PASSWORD}';
+GRANT ALL PRIVILEGES ON merchant_dv.* TO '${NEW_USERNAME}'@'localhost';
+FLUSH PRIVILEGES;"
+
+echo "New MySQL user created: ${NEW_USERNAME}:${NEW_PASSWORD}"
+
 
 systemctl enable mysqld
 
@@ -449,9 +460,9 @@ sed -i "s/^APP_DOMAIN=.*/APP_DOMAIN=${FRONT}/g" /home/server/backend/release/tar
 sed -i "s/^DB_CONNECTION=.*/DB_CONNECTION=mysql/g" /home/server/backend/release/target/.env
 sed -i "s/^DB_HOST=.*/DB_HOST=127.0.0.1/g" /home/server/backend/release/target/.env
 sed -i "s/^DB_PORT=.*/DB_PORT=3306/g" /home/server/backend/release/target/.env
-sed -i "s/^DB_DATABASE=.*/DB_DATABASE=btcmer/g" /home/server/backend/release/target/.env
-sed -i "s/^DB_USERNAME=.*/DB_USERNAME=root/g" /home/server/backend/release/target/.env
-sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${MYSQLPASSWORD}/g" /home/server/backend/release/target/.env
+sed -i "s/^DB_DATABASE=.*/DB_DATABASE=merchant_dv/g" /home/server/backend/release/target/.env
+sed -i "s/^DB_USERNAME=.*/DB_USERNAME=${NEW_USERNAME}/g" /home/server/backend/release/target/.env
+sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${NEW_PASSWORD}/g" /home/server/backend/release/target/.env
 sed -i "s/^PAYMENT_FORM_URL=.*/PAYMENT_FORM_URL=http:\/\/${PAYDOMAIN}\/invoices/g" /home/server/backend/release/target/.env
 sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=${PROCESSINGURL}/g" /home/server/backend/release/target/.env
 

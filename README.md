@@ -51,8 +51,15 @@ Based on laravel framework with any popular laravel package
    11. docker-compose exec app php artisan optimize:clear
 ```
 ### Installation with installer (only CentOs)
-You need only clean server
-To correctly install the merchant, you need to know the processing address. It can be installed on the same server in advance or specify its address in the installer
+You need a clean dedicated or virtual server (VPS/VDS) with the CentOS operating system.
+
+There is no need to install a database or a webserver. The installation script will do it by itself.
+
+Run the installation script as root user.
+
+Before installation, you will need a processing service. You can install the processing on your server, or use ours (then specify its IP address during installation).
+
+The installation will also require a domain name. Register it before starting the installation.
 
 1. git clone git@github.com:RadgRabbi/dv-backend.git
 2. cd ./dv-backend

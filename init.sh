@@ -67,7 +67,7 @@ fi
 
 if [[ -z "$4" ]];
 then
-  echo "Write processing url by default install http://localhost:8082"
+  echo "Write processing url by default install localhost:8082"
   read PROCESSING_URL
 else
   export PROCESSING_URL="${4}"
@@ -93,7 +93,7 @@ fi
 
 if [ "${PROCESSING_URL}" == "" ];
 then
-    export PROCESSING_URL="http://localhost:8082"
+    export PROCESSING_URL="localhost:8082"
 fi
 
 echo "Frontend domain: ${FRONT}"
@@ -464,7 +464,7 @@ sed -i "s/^DB_DATABASE=.*/DB_DATABASE=merchant_dv/g" /home/server/backend/releas
 sed -i "s/^DB_USERNAME=.*/DB_USERNAME=${NEW_USERNAME}/g" /home/server/backend/release/target/.env
 sed -i "s/^DB_PASSWORD=.*/DB_PASSWORD=${NEW_PASSWORD}/g" /home/server/backend/release/target/.env
 sed -i "s/^PAYMENT_FORM_URL=.*/PAYMENT_FORM_URL=http:\/\/${PAYDOMAIN}\/invoices/g" /home/server/backend/release/target/.env
-sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=${PROCESSINGURL}/g" /home/server/backend/release/target/.env
+sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=http:\/\/${PROCESSING_URL}/g" /home/server/backend/release/target/.env
 
 chown -R server:server /home/server/backend/
 chmod -R 775 /home/server/backend/storage/

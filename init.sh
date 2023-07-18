@@ -456,8 +456,10 @@ sed -i "s/^PAYMENT_FORM_URL=.*/PAYMENT_FORM_URL=http:\/\/${PAYDOMAIN}\/invoices/
 sed -i "s/^PROCESSING_URL=.*/PROCESSING_URL=${PROCESSINGURL}/g" /home/server/backend/release/target/.env
 
 chown -R server:server /home/server/backend/
+chmod -R 775 /home/server/backend/storage/
+chmod -R 775 /home/server/backend/bootstrap/
 
-sudo -u server -- sh -c 'cd /home/server/backend/release/target; composer install; php artisan key:generate; php artisan migrate --force; php artisan db:seed; php artisan l5-swagger:generate; php artisan cache:currency:rate; php artisan optimize:clear;'
+sudo -u server -- sh -c 'cd /home/server/backend/release/target; composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts --no-dev; php artisan key:generate; php artisan migrate --force; php artisan db:seed; php artisan l5-swagger:generate; php artisan cache:currency:rate; php artisan optimize:clear;'
 
 ln -s /home/server/backend/release/target /home/server/backend/www
 

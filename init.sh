@@ -480,7 +480,7 @@ rm -rf /home/server/frontend/
 
 mkdir -p /home/server/frontend/release/target
 
-git clone -b main https://github.com/RadgRabbi/dv-backend /home/server/frontend/release/target
+git clone -b main https://github.com/RadgRabbi/dv-frontend /home/server/frontend/release/target
 
 cp /home/server/frontend/release/target/.env.example /home/server/frontend/release/target/.env
 

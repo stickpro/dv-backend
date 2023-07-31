@@ -3,7 +3,7 @@
 DV Pay API is a free and open-source cryptocurrency payment processor which allows you to accept cryptocurrency without fees or intermediaries.
 
 <p align="center">
-<img src="https://ibb.co/0QcrtDt/dv_logo.png" alt="payment-form" border="0">
+<img src="https://i.ibb.co/1bLT6v6/dv-logo.png" alt="dv-logo" border="0">
 </p>
 
 ## 🎨 Features

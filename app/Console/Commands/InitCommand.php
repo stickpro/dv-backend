@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Client\RequestException;
 use Throwable;
 
 class InitCommand extends Command
@@ -18,14 +18,14 @@ class InitCommand extends Command
     {
         try {
             $response = Http::post(config('processing.url') . '/clients', [
-                'host' => config('app.app_domain')
+                'callbackUrl' => route('processing.callback'),
             ])
                 ->throw()
                 ->object();
 
-            $this->putPermanentEnv('PROCESSING_CLIENT_ID', config('app.app_domain'));
-            $this->putPermanentEnv('PROCESSING_CLIENT_KEY', $response->key);
-            $this->putPermanentEnv('PROCESSING_WEBHOOK_KEY', $response->webhookKey);
+            $this->putPermanentEnv('PROCESSING_CLIENT_ID', $response?->cid);
+            $this->putPermanentEnv('PROCESSING_CLIENT_KEY', $response?->key);
+            $this->putPermanentEnv('PROCESSING_WEBHOOK_KEY', $response?->webhookKey);
 
             Artisan::call('cache:clear');
 

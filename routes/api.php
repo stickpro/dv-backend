@@ -179,7 +179,7 @@ Route::prefix('telegram')->group(function () {
 
 Route::get('dictionaries', [DictionaryController::class, 'dictionaries']);
 
-Route::post('/processing/callback', [ProcessingController::class, 'callback'])->middleware('check.sign');
+Route::post('/processing/callback', [ProcessingController::class, 'callback'])->name('processing.callback')->middleware('check.sign');
 
 Route::prefix('support')->name('support.')->middleware(['auth:sanctum', 'role:admin|support'])->group(function () {
     Route::get('transactions/{txId}', [SupportController::class, 'getTransactionInfo']);

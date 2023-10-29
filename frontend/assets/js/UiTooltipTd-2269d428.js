@@ -1,0 +1,1 @@
+import{d as e,_ as o,o as s,c as a,x as p}from"./flag-icons.min-86ec5348.js";const n=e({props:{text:{type:String}}});const _=["data-tooltip"];function r(t,c,d,i,l,f){return s(),a("div",{class:"wrapper","data-tooltip":t.text},[p(t.$slots,"default",{},void 0,!0)],8,_)}const m=o(n,[["render",r],["__scopeId","data-v-e06c830f"]]);export{m as U};
